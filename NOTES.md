@@ -42,5 +42,5 @@
 - Meme rendered and visually inspected (v2 fixed text overflow in the two chips)
 - `main.ts` local run: `mkdir -p out && MAKEFUN_BOT_DIR=. MAKEFUN_OUTPUT_DIR=out node main.ts` — out/POST.json byte-identical to POST.json (placeholder; re-run after replacing it)
 - Repo files: README (3 badges), LICENSE (MIT, SPDX line), .makefun/owner.json, POST.json, main.ts, meme.png, generate_meme.py, NOTES.md
-- GitHub: Shanumameyra/post-the-meme-20261125, About homepage https://make.fun/bounty/u-myronera-post-the-meme-win-the-feed-2de960bf, topic `makefun`
+- GitHub: Shanumameyra/post-the-meme-20261125 (https://github.com/Shanumameyra/post-the-meme-20261125), commit a5402cd, branch master, pushed 2026-11-25 06:31 UTC after GitHub secondary rate limit blocked creation 05:13–06:01 UTC (5 failed attempts + REST 403; cleared at 06:31). About homepage https://make.fun/bounty/u-myronera-post-the-meme-win-the-feed-2de960bf + topic `makefun` — both VERIFIED via API after push.
 - NOT done (not builder scope): bundle, check, submit. No execution-risk check appeared during this build.
