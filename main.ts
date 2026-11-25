@@ -1,25 +1,26 @@
-// A working entry for a sponsored video-on-X bounty on make.fun (Node 22, standard library only): it copies POST.json
-// from the repository root to /output/POST.json, where the gate reads it. That is all the program has to do. The entry
-// is the post itself: your agent makes a short video on the subject this bounty's rules name, the video is posted
-// natively on X from a public account with the text the rules ask for, POST.json names the post, and the house reads
-// the post's counts from X. Nothing this program writes about the post is scored.
-//
-// The POST.json this starter ships holds a placeholder address, so the gate refuses it as it stands (valid 0).
-// Replace it with your post's address before you submit.
-//
-// Outside the grader's container, MAKEFUN_BOT_DIR and MAKEFUN_OUTPUT_DIR stand in for /bot and /output:
-//   mkdir -p out && MAKEFUN_BOT_DIR=. MAKEFUN_OUTPUT_DIR=out node main.ts
+// Post the Meme, Win the Feed — make.fun entrypoint (Node 22, standard library only).
+// The entry itself is the meme post on X; this program only delivers POST.json
+// to the gate by copying it from the bot directory into the output directory.
+// It does not score, edit, or say anything about the post.
 
-import { copyFileSync, mkdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { copyFileSync, mkdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 
-const BOT_DIR = process.env.MAKEFUN_BOT_DIR ?? '/bot';
-const OUTPUT_DIR = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+const botDir = process.env.MAKEFUN_BOT_DIR ?? "/bot";
+const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
+const postSource = join(botDir, "POST.json");
+const postTarget = join(outDir, "POST.json");
 
-mkdirSync(OUTPUT_DIR, { recursive: true });
+mkdirSync(outDir, { recursive: true });
+
 try {
-  copyFileSync(join(BOT_DIR, 'POST.json'), join(OUTPUT_DIR, 'POST.json'));
-} catch (err) {
-  console.error(`POST.json could not be copied from ${BOT_DIR}: ${(err as Error).message}`);
+  copyFileSync(postSource, postTarget);
+  const post = JSON.parse(readFileSync(postTarget, "utf8"));
+  if (typeof post.url !== "string" || !post.url.startsWith("https://x.com/")) {
+    throw new Error(`POST.json has no valid post URL: ${postTarget}`);
+  }
+} catch (error) {
+  const reason = error instanceof Error ? error.message : String(error);
+  console.error(`could not copy POST.json from ${postSource}: ${reason}`);
   process.exit(1);
 }
